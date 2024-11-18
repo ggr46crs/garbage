@@ -1,0 +1,39 @@
+from apps.app import db, login_manager
+# flask-loginからUserMixinクラスをインポート
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+
+# db.Modelを継承したUserクラス作成
+class User(db.Model, UserMixin):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String, index=True)
+    email = db.Column(db.String, unique=True, index=True)
+    password_hash = db.Column(db.String)
+    place_code = db.Column(db.Integer)
+
+    @property
+    def password(self):
+        raise AttributeError("読み取り不可")
+    
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+    
+    # パスワードチェックする
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
+    
+    # メールアドレス重複チェックする
+    def is_duplicate_email(self):
+        return User.query.filter_by(email=self.email).first() is not None
+
+# ログインユーザー情報を取得する関数作成
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
+
+class Place(db.Model):
+    __tablename__ = "place"
+    place_code = db.Column(db.Integer, primary_key=True)
+    place_name = db.Column(db.String)
