@@ -10,7 +10,8 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String, index=True)
     email = db.Column(db.String, unique=True, index=True)
     password_hash = db.Column(db.String)
-    place_code = db.Column(db.Integer)
+    place1 = db.Column(db.String)
+    place2 = db.Column(db.String)
 
     @property
     def password(self):
@@ -32,8 +33,3 @@ class User(db.Model, UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
-
-class Place(db.Model):
-    __tablename__ = "place"
-    place_code = db.Column(db.Integer, primary_key=True)
-    place_name = db.Column(db.String)

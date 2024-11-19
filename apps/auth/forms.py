@@ -1,7 +1,7 @@
 # flask_wtfからFlaskFormクラスをインポート
 from flask_wtf import FlaskForm
 # wtformsから各フィールドをインポート
-from wtforms import PasswordField, StringField, SubmitField
+from wtforms import PasswordField, StringField, SubmitField, IntegerField
 # wtformsから各バリデータをインポート
 from wtforms.validators import DataRequired, Email, Length
 
@@ -26,6 +26,13 @@ class SignUpForm(FlaskForm):
         validators = [
             DataRequired("パスワードは必須です。"),
         ],
+    )
+    # 追加
+    place = IntegerField(
+        "郵便番号",
+        validators = [
+            DataRequired("郵便番号は必須です。")
+        ]
     )
     submit = SubmitField("Sign up")
 

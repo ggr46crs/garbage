@@ -3,6 +3,7 @@ from apps.auth.forms import SignUpForm, LoginForm
 from apps.auth.models import User
 from flask import Blueprint, render_template, flash, url_for, redirect, request
 from flask_login import login_user, login_required, logout_user
+import requests
 
 auth = Blueprint(
     "auth",
@@ -27,10 +28,19 @@ def signup():
     # SignUpFormをインスタンス化
     signform = SignUpForm()
     if signform.validate_on_submit():
+        zipcode = signform.place.data
+        # 郵便番号検索APIのURLを定数化する
+        URL = 'https://zipcloud.ibsnet.co.jp/api/search'
+        # paramsで検索したい郵便番号を渡す
+        res = requests.get(URL, params={'zipcode': zipcode})
+        result = res.json()
+        result = result['results']
         user = User(
             username = signform.username.data,
             email = signform.email.data,
             password = signform.password.data,
+            place1 = result[0]['address1'],
+            place2 = result[0]['address2'],
         )
         # メールアドレス重複チェック
         if user.is_duplicate_email():
