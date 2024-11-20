@@ -36,9 +36,11 @@ def create_app(config_key):
     # authパッケージからviewsをインポート
     from apps.auth import views as auth_views
     from apps.chat import views as chat_views
+    from apps.friends import views as friends_views
 
     # register_blueprintを利用してviewsのauthappをアプリへ登録
     app.register_blueprint(auth_views.auth, url_prefix="/auth")
     app.register_blueprint(chat_views.chat, url_prefix="/chat")
+    app.register_blueprint(friends_views.friends, url_prefix="/friends")
 
     return app

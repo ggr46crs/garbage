@@ -15,6 +15,7 @@ class LocalConfig(BaseConfig):
         'name': 'garbage'
     })
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ECHO=True
 
 # config辞書にマッピング
 config = {

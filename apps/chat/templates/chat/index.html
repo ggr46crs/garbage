@@ -1,0 +1,20 @@
+{% extends "chat/base.html" %}
+{% block content %}
+<h1>ユーザーの一覧</h1>
+<table>
+    <tr>
+        <th>ユーザー名</th>
+        <th>メールアドレス</th>
+        <th>活動場所１</th>
+        <th>活動場所２</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.place1 }}</td>
+        <td>{{ user.place2 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -13,5 +13,5 @@ chat = Blueprint(
 
 @chat.route("/userlist")
 def userlist():
-    db.session.query(User).all()
-    return
+    users = User.query.all()
+    return render_template("chat/index.html", users=users)

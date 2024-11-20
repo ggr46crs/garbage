@@ -17,9 +17,9 @@ def index():
     # TOPページへのアクセスはサインアップページに遷移させる
     return redirect(url_for("auth.signup"))
 
-@auth.route("/auth_ok")
+@auth.route("/home")
 @login_required
-def auth_ok():
+def home():
     return render_template("auth/index.html")
 
 # signupエンドポイントを作成する
@@ -54,7 +54,7 @@ def signup():
         # GETパラメータにnextキーが存在し値がない場合にToDo一覧へ
         next_ = request.args.get("next")
         if next_ is None or not next_.startswith("/"):
-            next_ = url_for("auth.auth_ok")
+            next_ = url_for("auth.home")
         return redirect(next_)
     
     return render_template("auth/signup.html", form=signform)
@@ -69,7 +69,7 @@ def login():
         # ユーザーが存在しパスワード一致ならログイン許可
         if user is not None and user.verify_password(loginform.password.data):
             login_user(user)
-            return redirect(url_for("auth.auth_ok"))
+            return redirect(url_for("auth.home"))
         # ログイン失敗メッセージを設定する
         flash("メールアドレスかパスワードが不正です")
         
