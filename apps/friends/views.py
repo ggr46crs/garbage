@@ -20,3 +20,10 @@ def search():
     else:
         users = db.session.query(User).filter(and_(User.place1 == current_user.place1,or_(User.username.like("%"+text_input+"%"), User.email.like("%"+text_input+"%"))),User.id != current_user.id).all()
     return render_template('friends/search.html', users=users)
+
+@friends.route('/request', methods=["GET", "POST"])
+def friends_request():
+    if request.method == "POST":
+        userid = request.form["userid"]
+        user = db.session.query(User).filter(User.id == userid).first()
+    return render_template('friends/request.html', user=user)
