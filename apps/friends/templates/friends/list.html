@@ -4,10 +4,10 @@
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">申請待ち一覧</h6>
+        <h6 class="m-0 font-weight-bold text-primary">フレンドの一覧</h6>
     </div>
     {% if users | length == 0 %}
-    <h1>申請のあったユーザーは0件です</h1>
+    <h1>あなたのフレンドは0件です</h1>
     {% else %}
     <div class="card-body">
         <div class="table-responsive">
@@ -18,8 +18,7 @@
                         <th>メールアドレス</th>
                         <th>都道府県</th>
                         <th>市区町村</th>
-                        <th>許可</th>
-                        <th>拒否</th>
+                        <th>削除</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -28,25 +27,20 @@
                         <th>メールアドレス</th>
                         <th>都道府県</th>
                         <th>市区町村</th>
-                        <th>許可</th>
-                        <th>拒否</th>
+                        <th>削除</th>
                     </tr>
                 </tfoot>
                 <tfoot>
                     {% for user in users %}
                     <tr>
-                        
+                        <form action="../friends/delete" method="post">
                             <th>{{ user.username }}</th>
                             <th>{{ user.email }}</th>
                             <th>{{ user.place1 }}</th>
                             <th>{{ user.place2 }}</th>
-                            <form action="./requests/permission" method="post">
                             <input type="hidden" name="userid" value="{{user.id}}">
-                            <th><input class="btn btn-primary" type="submit" name="userid" id="userid" value="許可"></th></form>
-                            <form action="./requests/rejection" method="post">
-                            <input type="hidden" name="userid" value="{{user.id}}">
-                            <th><input class="btn btn-primary" type="submit" name="userid" id="userid" value="拒否"></th></form>
-                        
+                            <th><input class="btn btn-primary" type="submit" name="userid" id="userid" value="削除"></th>
+                        </form>
                     </tr>
                     {% endfor %}
                 </tfoot>

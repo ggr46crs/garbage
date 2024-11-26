@@ -1,10 +1,13 @@
 {% extends "auth/base.html" %}
 {% block content %}
 <div class="button-container">
-<button type="button" class="btn btn-custom" onclick="location.href='../friends/search'" style="background-color: orange;color: black;">ユーザー検索</button>
-<button type="button" class="btn btn-custom" id="btn2" onclick="location.href='./home'" style="background-color: rgb(232, 13, 232);color: black;">チャット</button>
-<button type="button" class="btn btn-custom" id="btn3" onclick="location.href='../friends/'" style="background-color: rgb(50, 185, 231);color: black;">フレンド機能</button>
-<button type="button" class="btn btn-custom" id="btn4" onclick="location.href='./home'" style="background-color: greenyellow;color: black;">ゴミの登録</button>
-<button type="button" class="btn btn-custom" id="btn5" onclick="location.href='./home'" style="background-color: rgb(233, 48, 48);color: black;">ゴミの集計</button>
+    <div class="left-buttons">
+        <button type="button" class="btn btn-flat" onclick="location.href='../friends/search'"><span>ユーザー検索</span></button>
+        <button type="button" class="btn btn-flat2" onclick="location.href='../chat/userlist'"><span>チャット　　</span></button>
+    </div>
+    <div class="right-buttons">
+        <button type="button" class="btn btn-flat3" onclick="location.href='../friends'"><span>フレンド　　</span></button>
+        <button type="button" class="btn btn-flat4" onclick="location.href='./home'"><span>ごみの記録　</span></button>
+    </div>
 </div>
 {% endblock %}

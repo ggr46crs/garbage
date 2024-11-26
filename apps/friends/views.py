@@ -65,5 +65,38 @@ def friends_function():
 def friends_requests():
     friends_id = [row[0] for row in db.session.query(Friends.friend_id).filter(and_(Friends.user_id == current_user.id,
                                                                                     Friends.status == False)).all()]
-    users = db.session.query(User).filter(not_(User.id.in_(friends_id))).all()
+    users = db.session.query(User).filter(User.id.in_(friends_id)).all()
     return render_template('friends/requests.html', users=users)
+
+@friends.route('/requests/permission',methods=["GET", "POST"])
+def friends_requests_permission():
+    if request.method == "POST":
+        userid = request.form["userid"]
+        friend = db.session.query(Friends).filter(and_(Friends.friend_id == userid,
+                                                  Friends.user_id == current_user.id)).first()
+        friend.status = True
+        db.session.commit()
+        friend = db.session.query(Friends).filter(and_(Friends.user_id == userid,
+                                                  Friends.friend_id == current_user.id)).first()
+        friend.status = True
+        db.session.commit()
+        return redirect(url_for("friends.friends_requests"))
+@friends.route('/requests/rejection',methods=["GET", "POST"])
+def friends_requests_rejection():
+    if request.method == "POST":
+        userid = request.form["userid"]
+        friend = db.session.query(Friends).filter(and_(Friends.friend_id == userid,
+                                                  Friends.user_id == current_user.id)).delete()
+        db.session.commit()
+        friend = db.session.query(Friends).filter(and_(Friends.user_id == userid,
+                                                  Friends.friend_id == current_user.id)).delete()
+        db.session.commit()
+        return redirect(url_for("friends.friends_requests"))
+    
+
+@friends.route('/list')
+def friends_list():
+    friends_id = [row[0] for row in db.session.query(Friends.friend_id).filter(and_(Friends.user_id == current_user.id,
+                                                                                    Friends.status == True)).all()]
+    users = db.session.query(User).filter(User.id.in_(friends_id)).all()
+    return render_template('friends/list.html', users=users)
