@@ -63,7 +63,8 @@ def friends_function():
 
 @friends.route('/requests')
 def friends_requests():
-    friends_id = [row[0] for row in db.session.query(Friends.friend_id).filter(and_(Friends.user_id == current_user.id,
+    friends_id = [row[0] for row in db.session.query(Friends.user_id).filter(and_(Friends.recipient == current_user.id,
+                                                                                    Friends.user_id != current_user.id,
                                                                                     Friends.status == False)).all()]
     users = db.session.query(User).filter(User.id.in_(friends_id)).all()
     return render_template('friends/requests.html', users=users)
@@ -85,11 +86,11 @@ def friends_requests_permission():
 def friends_requests_rejection():
     if request.method == "POST":
         userid = request.form["userid"]
-        friend = db.session.query(Friends).filter(and_(Friends.friend_id == userid,
-                                                  Friends.user_id == current_user.id)).delete()
+        db.session.query(Friends).filter(and_(Friends.friend_id == userid,
+                                              Friends.user_id == current_user.id)).delete()
         db.session.commit()
-        friend = db.session.query(Friends).filter(and_(Friends.user_id == userid,
-                                                  Friends.friend_id == current_user.id)).delete()
+        db.session.query(Friends).filter(and_(Friends.user_id == userid,
+                                              Friends.friend_id == current_user.id)).delete()
         db.session.commit()
         return redirect(url_for("friends.friends_requests"))
     
@@ -100,3 +101,15 @@ def friends_list():
                                                                                     Friends.status == True)).all()]
     users = db.session.query(User).filter(User.id.in_(friends_id)).all()
     return render_template('friends/list.html', users=users)
+
+@friends.route('/delete',methods=["GET", "POST"])
+def friends_delete():
+    if request.method == "POST":
+        friendid = request.form["userid"]
+        db.session.query(Friends).filter(and_(Friends.friend_id == friendid,
+                                            Friends.user_id == current_user.id)).delete()
+        db.session.commit()
+        db.session.query(Friends).filter(and_(Friends.user_id == friendid,
+                                            Friends.friend_id == current_user.id)).delete()
+        db.session.commit()
+        return redirect(url_for("friends.friends_list"))

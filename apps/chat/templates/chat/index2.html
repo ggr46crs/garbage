@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Chat</title>
+    <link rel="stylesheet" href="{{ url_for('chat.static', filename='css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="messages"></div>
+        <input id="message-input" autocomplete="off"><button onclick="sendMessage()">Send</button>
+    </div>
+    <script>
+        var socket = io();
+
+        socket.on('message', function(msg){
+            var messages = document.getElementById('messages');
+            var message = document.createElement('div');
+            message.classList.add('message', 'other');
+            message.textContent = msg;
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
+        });
+
+        function sendMessage() {
+            var input = document.getElementById('message-input');
+            var msg = input.value;
+            if (msg.trim() === '') return;
+
+            // Add self message
+            var messages = document.getElementById('messages');
+            var message = document.createElement('div');
+            message.classList.add('message', 'self');
+            message.textContent = msg;
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
+
+            // Send message to server
+            socket.emit('message', msg); // 修正: socket.sendからsocket.emitに変更
+            input.value = '';
+        }
+    </script>
+</body>
+</html>
