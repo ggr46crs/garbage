@@ -34,7 +34,9 @@ def create_app(config_key):
     # login_managerとアプリ連携
     login_manager.init_app(app)
     # flask_socketio追加
+    global socketio
     socketio = SocketIO(app)
+    socketio.init_app(app)
 
     # authパッケージからviewsをインポート
     from apps.auth import views as auth_views

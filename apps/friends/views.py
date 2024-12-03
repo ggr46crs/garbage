@@ -44,6 +44,7 @@ def friends_request_com():
             friend_id = friendid,
             status = False,
             recipient = friendid,
+            room_ID = "_".join(sorted([str(current_user.id),str(friendid)]))
         )
         db.session.add(friend)
         db.session.commit()
@@ -52,6 +53,7 @@ def friends_request_com():
             friend_id = current_user.id,
             status = False,
             recipient = friendid,
+            room_ID = "_".join(sorted([str(current_user.id),str(friendid)]))
         )
         db.session.add(friend)
         db.session.commit()

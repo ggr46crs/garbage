@@ -7,3 +7,4 @@ class Friends(db.Model):
     friend_id = db.Column(db.Integer)
     status = db.Column(db.Boolean)
     recipient = db.Column(db.Integer)
+    room_ID = db.Column(db.String)
