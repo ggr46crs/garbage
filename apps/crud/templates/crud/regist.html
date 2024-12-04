@@ -1,0 +1,27 @@
+{% extends "crud/base.html" %}
+{% block content %}
+<div class="container">
+  <div class="card card-container">
+    <p id="profile-name" class="profile-name-card"></p>
+    <form action="{{ url_for('crud.garbage_regist', next=request.args.get(next)) }}" class="form-regist" method="POST" novalidate="novalidate">
+      {% for message in get_flashed_messages() %}
+      <p style="color: red";>{{ message }}</p>
+      {% endfor %}
+      {{ form.hidden_tag() }}
+      {% for error in form.garbagecode.errors %}
+      <span style="color: red;">{{ error }}</span>
+      {% endfor %}
+      {{ form.garbagecode(class="form-select", placeholder="Select a garbage code") }}
+      {% for error in form.amount.errors %}
+      <span style="color: red;">{{ error }}</span>
+      {% endfor %}
+      {{ form.amount(class="form-control", placeholder="ごみの量") }}
+      {% for error in form.date.errors %}
+      <span style="color: red;">{{ error }}</span>
+      {% endfor %}
+      {{ form.date(class="form-control", placeholder="date") }}
+      {{ form.submit(class="btn btn-lg btn-primary btn-block btn-signin") }}
+    </form>
+  </div>
+</div>
+{% endblock %}

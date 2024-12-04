@@ -12,6 +12,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String)
     place1 = db.Column(db.String)
     place2 = db.Column(db.String)
+    request = db.Column(db.Boolean,default=False)
 
     @property
     def password(self):

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Chat</title>
+    <link rel="stylesheet" href="{{ url_for('chat.static', filename='css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="messages"></div>
+        <input id="message-input" autocomplete="off"><button onclick="sendMessage()">Send</button>
+    </div>
+    <script>
+        var socket = io();
+        let isExecuted = false;
+        const join = (room) => {socket.emit("join" ,{room:room})}
+        console.log('テストテスト')
+        var friend = {{friend|tojson}};
+        var user = {{user|tojson}};
+        var chat = {{chat|tojson}};
+        
+        function runOnce() {
+            if (!isExecuted) {
+                for (let i = 0; i < chat.length; i++) {
+                    if (chat[i][1] == user[0]){
+                        console.log(chat[i][3])
+                        var messages = document.getElementById('messages');
+                        var message = document.createElement('div');
+                        message.classList.add('message', 'self');
+                        message.textContent = chat[i][3];
+                        messages.appendChild(message);
+                        messages.scrollTop = messages.scrollHeight;
+                    } else {
+                        console.log(chat[i][3])
+                        var messages = document.getElementById('messages');
+                        var message = document.createElement('div');
+                        message.classList.add('message', 'other');
+                        message.textContent = chat[i][3];
+                        messages.appendChild(message);
+                        messages.scrollTop = messages.scrollHeight;
+                    }
+
+                }
+                isExecuted = true; // フラグを立てる
+            }
+        }
+
+        join(friend[1])
+        runOnce()
+        socket.on('message', function(msg){
+            var messages = document.getElementById('messages');
+            var message = document.createElement('div');
+            message.classList.add('message', 'other');
+            message.textContent = msg;
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
+        });
+
+        function sendMessage() {
+            var input = document.getElementById('message-input');
+            var msg = input.value;
+            if (msg.trim() === '') return;
+
+            // Add self message
+            var messages = document.getElementById('messages');
+            var message = document.createElement('div');
+            message.classList.add('message', 'self');
+            message.textContent = msg;
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
+            var data = [msg,friend[1],friend[0],user[0]];
+            // Send message to server
+            socket.emit('message', data); // 修正: socket.sendからsocket.emitに変更
+            input.value = '';
+        }
+    </script>
+</body>
+</html>

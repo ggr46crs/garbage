@@ -1,19 +1,21 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField,SelectMultipleField,IntegerField,DateField
+from wtforms import SubmitField,SelectField,IntegerField,DateField
 from wtforms.validators import length,DataRequired
-
+ 
 class GarbageForm(FlaskForm):
-    garbage_code = SelectMultipleField(
-        "ゴミの種類",
+    garbagecode = SelectField(
+        "ごみの種類",
+        choices=[],
         validators=[
             DataRequired(message="ごみの種類を選択してください"),
-            ],
+            ]
     )
-
+   
+ 
     amount = IntegerField(
-        "ゴミの量",
+        "ごみの量",
         validators=[
-            DataRequired(message="ゴミの量は必須ですは必須です"),
+            DataRequired(message="ごみの量は必須です"),
         ]
     )
     date = DateField(
@@ -23,3 +25,4 @@ class GarbageForm(FlaskForm):
         ]
     )
     submit = SubmitField("登録")
+ 
