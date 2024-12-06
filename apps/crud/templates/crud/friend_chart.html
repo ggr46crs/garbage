@@ -1,0 +1,43 @@
+{% extends "crud/base.html" %}
+{% block content %}
+<div class="container mt-5">
+    {% if garbage_counts %}
+    <!-- 円グラフとリストを横並びに配置 -->
+    <div class="row">
+        <div class="col-md-6">
+            <h1 class="text-center">{{ friend_name }}さんの<br>ごみの種類別円グラフ</h1>
+            <!-- 月の選択フォーム -->
+            <form method="POST" action="{{ url_for('crud.friend_chart') }}" class="text-center mb-4">
+                <label for="month">月を選択:</label>
+                <select name="month" id="month" class="form-control d-inline-block w-auto">
+                    {% for month in months %}
+                    <option value="{{ month }}" {% if month == selected_month %}selected{% endif %}>{{ month }}</option>
+                    {% endfor %}
+                </select>
+                <input type="hidden" name="userid" value="{{friend_id}}">
+                <button type="submit" class="btn btn-primary">表示</button>
+            </form>
+            <!-- ゴミの個数データのリスト -->
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    ごみの個数データ
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for garbage in garbage_counts %}
+                        <li class="list-group-item">
+                            {{ garbage.name }}: {{ garbage.count }} 個
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6 text-center mb-5">
+            <!-- 円グラフ -->
+            <img src="data:image/png;base64,{{ graph_url }}" alt="ごみの種類円グラフ" class="img-fluid">
+        </div>
+    </div>
+    {% else %}
+        <h1>データがありません</h1>
+    {% endif %}
+</div>
+{% endblock %}

@@ -29,15 +29,6 @@
                     </tr>
                 </thead>
                 <tfoot>
-                    <tr>
-                        <th>ユーザー名</th>
-                        <th>メールアドレス</th>
-                        <th>都道府県</th>
-                        <th>市区町村</th>
-                        <th>フレンド申請</th>
-                    </tr>
-                </tfoot>
-                <tfoot>
                     {% for user in users %}
                     <tr>
                         <form action="../friends/request" method="post">

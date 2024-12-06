@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import SubmitField,SelectField,IntegerField,DateField
-from wtforms.validators import length,DataRequired
+from wtforms.validators import length,DataRequired,NumberRange
  
 class GarbageForm(FlaskForm):
     garbagecode = SelectField(
@@ -10,11 +10,10 @@ class GarbageForm(FlaskForm):
             DataRequired(message="ごみの種類を選択してください"),
             ]
     )
-   
- 
     amount = IntegerField(
         "ごみの量",
         validators=[
+            NumberRange(min=1,message="正の整数を入力してください"),
             DataRequired(message="ごみの量は必須です"),
         ]
     )

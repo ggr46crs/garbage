@@ -31,12 +31,13 @@ def chatroom():
         friend = db.session.query(Friends).filter(and_(Friends.user_id == current_user.id,
                                                        Friends.friend_id == friend_id)).first()
         user = db.session.query(User).filter(User.id == current_user.id).first()
+        user2 = db.session.query(User).filter(User.id == friend.friend_id).first()
         chats = db.session.query(Chat).filter(or_(
             and_(Chat.send == current_user.id,Chat.receive == friend_id),
             and_(Chat.send == friend_id,Chat.receive == current_user.id))).order_by(Chat.data).all()
         chat_list = [[chat.id,chat.send,chat.receive,chat.comment,chat.data] for chat in chats]
         user_list = [user.id,user.username]
-        friend_list = [friend.friend_id,friend.room_ID]
+        friend_list = [friend.friend_id,friend.room_ID,user2.username]
         return render_template('chat/chatroom.html',friend=friend_list,user=user_list,chat=chat_list)
     return redirect(url_for('chat.userlist'))
 

@@ -5,7 +5,7 @@ class GarbageRecord(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     user_id = db.Column(db.Integer)
     garbage_code = db.Column(db.String)
-    amount = db.Column(db.String)
+    amount = db.Column(db.Integer)
     date = db.Column(db.Date)
     
 class Garbage(db.Model):

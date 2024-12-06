@@ -20,7 +20,10 @@
       <span style="color: red;">{{ error }}</span>
       {% endfor %}
       {{ form.date(class="form-control", placeholder="date") }}
-      {{ form.submit(class="btn btn-lg btn-primary btn-block btn-signin") }}
+      <div class="btn-group">
+        <a href="{{ url_for('crud.crud_function') }}" class="btn btn-lg btn-secondary">戻る</a>
+        {{ form.submit(class="btn btn-lg btn-primary btn-block btn-signin") }}
+      </div>
     </form>
   </div>
 </div>

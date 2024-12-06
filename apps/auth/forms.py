@@ -34,7 +34,7 @@ class SignUpForm(FlaskForm):
             DataRequired("郵便番号は必須です。")
         ]
     )
-    submit = SubmitField("Sign up")
+    submit = SubmitField("新規登録")
 
 # ログインフォームクラス作成
 class LoginForm(FlaskForm):
@@ -51,4 +51,4 @@ class LoginForm(FlaskForm):
             DataRequired("パスワードは必須です。"),
         ],
     )
-    submit = SubmitField("Login")
+    submit = SubmitField("ログイン")
