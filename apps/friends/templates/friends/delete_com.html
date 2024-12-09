@@ -1,0 +1,50 @@
+{% extends "friends/base.html" %}
+{% block content %}
+    <div class="message-box">
+        <h1>削除が完了しました！</h1>
+        <a href="{{ url_for('friends.friends_list') }}">フレンド一覧画面に戻る</a>
+    </div>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .message-box {
+            text-align: center;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .message-box h1 {
+            color: black;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .message-box p {
+            color: #555;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .message-box a {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            color: #fff;
+            background-color: gray;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .message-box a:hover {
+            background-color: rgb(201, 199, 199);
+        }
+    </style>
+{% endblock %}

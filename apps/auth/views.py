@@ -2,7 +2,7 @@ from apps.app import db
 from apps.auth.forms import SignUpForm, LoginForm
 from apps.auth.models import User
 from flask import Blueprint, render_template, flash, url_for, redirect, request
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user,current_user
 import requests
 
 auth = Blueprint(
@@ -21,6 +21,8 @@ def index():
 def signup():
     # SignUpFormをインスタンス化
     signform = SignUpForm()
+    if current_user.is_authenticated:
+        logout_user()
     if signform.validate_on_submit():
         zipcode = signform.place.data
         # 郵便番号検索APIのURLを定数化する
@@ -57,6 +59,8 @@ def signup():
 @auth.route("/login", methods=["GET", "POST"])
 def login():
     loginform = LoginForm()
+    if current_user.is_authenticated:
+        logout_user()
     if loginform.validate_on_submit():
         # メールアドレスからユーザー取得
         user = User.query.filter_by(email=loginform.email.data).first()

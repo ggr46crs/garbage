@@ -1,0 +1,26 @@
+{% extends "friends/base.html" %}
+{% block content %}
+<div class="card card-container text-center p-4">
+    <h3>このフレンドを削除<br>しますか？</h3>
+
+    <!-- 白い枠で囲む部分 -->
+    <div class="bg-white border rounded p-4 shadow-sm">
+        <h5>ユーザーネーム</h5>
+        <input class="form-control-plaintext text-center my-2" type="text" placeholder="{{user.username}}" disabled>
+        <h5>メールアドレス</h5>
+        <input class="form-control-plaintext text-center my-2" type="text" placeholder="{{user.email}}" disabled>
+        <div class="d-flex justify-content-center mt-3 gap-3">
+            <!-- 戻るボタン -->
+            <button type="button" class="btn btn-secondary" onclick="location.href='../friends/list'">
+                戻る
+            </button>
+            
+            <!-- フレンド申請フォーム -->
+            <form action="../friends/delete/com" method="post" class="d-inline">
+                <input type="hidden" name="userid" value="{{user.id}}">
+                <input class="btn btn-primary" type="submit" value="削除する">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

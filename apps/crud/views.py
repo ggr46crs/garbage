@@ -25,10 +25,12 @@ crud = Blueprint(
 )
  
 @crud.route('/')
+@login_required
 def crud_function():
     return render_template('crud/index.html')
  
 @crud.route("/regist", methods=["GET", "POST"])
+@login_required
 def garbage_regist():
     garbageform = GarbageForm()
     garbage_types = db.session.query(Garbage.garbage_code, Garbage.type).all()
@@ -42,10 +44,15 @@ def garbage_regist():
         )
         db.session.add(garbage)
         db.session.commit()
-        return redirect(url_for("crud.garbage_regist"))
+        return redirect(url_for("crud.crud_regist_complete"))
     return render_template("crud/regist.html", form=garbageform)
 
+@crud.route("/regist/complete", methods=["GET", "POST"])
+def crud_regist_complete():
+    return render_template("crud/crud_com.html")
+
 @crud.route('/chart', methods=["GET", "POST"])
+@login_required
 def chart():
     garbage_record = db.session.query(
     func.to_char(func.cast(GarbageRecord.date, Date), 'YYYY-MM').label('month'),
@@ -92,6 +99,7 @@ def chart():
     return render_template('crud/chart.html', graph_url=graph_url, months=garbage_data.keys(), selected_month=selected_month, garbage_counts=garbage_counts)
 
 @crud.route('/friend/chart',methods=["GET", "POST"])
+@login_required
 def friend_chart():
     if request.method == "POST":
         friend_id = request.form["userid"]
@@ -110,7 +118,7 @@ def friend_chart():
     ).all()
 
     if not garbage_record:
-        return render_template('crud/chart.html', graph_url=None, months=[], selected_month=None, garbage_counts=[])
+        return render_template('crud/friend_chart.html', graph_url=None, months=[], selected_month=None, garbage_counts=[])
     # 最新月のデータを取得
     garbage_data = {}
     for month, garbage_name, total_amount in garbage_record:
@@ -141,3 +149,4 @@ def friend_chart():
  
     # 月のリストをテンプレートに渡す
     return render_template('crud/friend_chart.html', graph_url=graph_url, months=garbage_data.keys(), selected_month=selected_month, garbage_counts=garbage_counts,friend_id=friend_id,friend_name=friend.username)
+

@@ -17,6 +17,7 @@ chat = Blueprint(
 )
 
 @chat.route("/userlist")
+@login_required
 def userlist():
     friends_id = [row[0] for row in db.session.query(Friends.friend_id).filter(and_(Friends.user_id == current_user.id,
                                                                                     Friends.status == True)).all()]
@@ -24,6 +25,7 @@ def userlist():
     return render_template('chat/index.html', users=users)
 
 @chat.route("/chatroom",methods=["GET", "POST"])
+@login_required
 def chatroom():
     if request.method == "POST":
         friend_id = request.form["userid"]
@@ -42,6 +44,7 @@ def chatroom():
     return redirect(url_for('chat.userlist'))
 
 @chat.route('/')
+@login_required
 def index():
     return render_template('chat/chatroom.html')
 

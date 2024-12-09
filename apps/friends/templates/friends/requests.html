@@ -22,16 +22,7 @@
                         <th>拒否</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>ユーザー名</th>
-                        <th>メールアドレス</th>
-                        <th>都道府県</th>
-                        <th>市区町村</th>
-                        <th>許可</th>
-                        <th>拒否</th>
-                    </tr>
-                </tfoot>
+                
                 <tfoot>
                     {% for user in users %}
                     <tr>
@@ -46,7 +37,6 @@
                             <form action="./requests/rejection" method="post">
                             <input type="hidden" name="userid" value="{{user.id}}">
                             <th><input class="btn btn-primary" type="submit" name="userid" id="userid" value="拒否"></th></form>
-                        
                     </tr>
                     {% endfor %}
                 </tfoot>

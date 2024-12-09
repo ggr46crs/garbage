@@ -2,17 +2,14 @@
 {% block content %}
     <div id="chat-container">
         <nav class="navbar navbar-light bg-light" style="border: solid;">
-            <ul class="navbar-nav flex-row">
-                <li class="nav-item pe-3">
-                    <a class="navbar-brand" href="{{ url_for('chat.userlist') }}">戻る</a>
-                </li>
-            </ul>
             <h4><div id="username"></div></h4>
         </nav>
         <div id="messages"></div>
     </div>
     <div id="chat-button">
-        <input class="form-control" id="message-input" autocomplete="off" ><button class="btn btn-primary" onclick="sendMessage()" style="width: 70px;height: 40px;">送信</button>
+        <input class="form-control" id="message-input" autocomplete="off" >
+        <button class="btn btn-primary" onclick="sendMessage()" style="width: 70px;height: 40px;">送信</button>
+        <a href="{{ url_for('chat.userlist') }}" class="btn btn-lg btn-secondary" style="width: 70px;height: 40px;font-size: 14px;">戻る</a>
     </div>
     <script>
         var socket = io();
