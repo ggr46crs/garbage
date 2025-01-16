@@ -16,17 +16,18 @@ friends = Blueprint(
 @friends.route('/search')
 @login_required
 def search():
+    # 現在のユーザーのフレンドIDを取得
     friends_id = [row[0] for row in db.session.query(Friends.friend_id).filter(Friends.user_id == current_user.id).all()]
-    
+
     # 並べ替え条件を取得
     sort_by = request.args.get('sort_by', 'username')  # デフォルトは 'username'
     order = request.args.get('order', 'asc')  # デフォルトは昇順
 
-    # 有効な並べ替えカラムを指定
+    # 並べ替えの有効なカラムを指定
     valid_sort_columns = ["username", "email", "place1", "place2"]
     if sort_by not in valid_sort_columns:
-        sort_by = "username"  # 無効な値が渡された場合は 'username' にフォールバック
-    order_func = desc if order == "desc" else asc  # 降順なら desc、昇順なら asc を使用
+        sort_by = "username"
+    order_func = desc if order == "desc" else asc
 
     # 検索条件を取得
     text_input = request.args.get('search')
@@ -46,8 +47,17 @@ def search():
             )
         ).order_by(order_func(getattr(User, sort_by))).all()
 
-    return render_template('friends/search.html', users=users, friends_id=friends_id, current_sort=sort_by, current_order=order)
+    # 並べ替え反転用の値を計算
+    reverse_order = 'desc' if order == 'asc' else 'asc'
 
+    return render_template(
+        'friends/search.html',
+        users=users,
+        friends_id=friends_id,
+        current_sort=sort_by,
+        current_order=order,
+        reverse_order=reverse_order
+    )
 @friends.route('/request', methods=["GET", "POST"])
 @login_required
 def friends_request():
