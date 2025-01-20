@@ -30,6 +30,11 @@ def signup():
         # paramsで検索したい郵便番号を渡す
         res = requests.get(URL, params={'zipcode': zipcode})
         result = res.json()
+
+        if result['results'] is None:
+            signform.place.errors.append("入力された郵便番号は存在しません。")
+            return render_template("auth/signup.html", form=signform)
+
         result = result['results']
         user = User(
             username = signform.username.data,

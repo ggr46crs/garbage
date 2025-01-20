@@ -48,6 +48,7 @@ def garbage_regist():
     return render_template("crud/regist.html", form=garbageform)
 
 @crud.route("/regist/complete", methods=["GET", "POST"])
+@login_required
 def crud_regist_complete():
     return render_template("crud/crud_com.html")
 
@@ -75,8 +76,17 @@ def chart():
         garbage_data[month][garbage_name] = float(total_amount)
  
      # 選択された月の取得
-    selected_month = request.form.get('month') or max(garbage_data.keys())
- 
+    selected_month = request.form.get('month')
+    if not selected_month:
+        if garbage_data:  # データが存在する場合
+            selected_month = max(garbage_data.keys())
+        else:  # データが空の場合
+            selected_month = None
+
+    # データが空の場合の対応
+    if not garbage_data or selected_month is None:
+        # 空のグラフとメッセージを表示
+        return render_template('crud/chart.html', graph_url=None, months=[], selected_month=None, garbage_counts=[])
     # 指定月のデータを取得
     labels = garbage_data[selected_month].keys()  # ゴミの名前をラベルに
     sizes = garbage_data[selected_month].values()
