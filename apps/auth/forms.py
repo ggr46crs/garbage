@@ -33,7 +33,7 @@ class SignUpForm(FlaskForm):
         validators = [
             DataRequired("郵便番号は必須です。"),
             Length(7, 7, "郵便番号は7文字以内で入力してください。"),
-            Regexp(r'^[0-9]$', message="郵便番号は半角数字で入力してください。"),
+            Regexp(r'^[0-9]+$', message="郵便番号は半角数字で入力してください。"),
         ]
     )
     submit = SubmitField("新規登録")
