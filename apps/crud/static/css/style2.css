@@ -3,14 +3,12 @@
     padding: 40px 40px;
 }
  
-/*
- * Card component
- */
- .card {
+.card {
     background-color: #F7F7F7;
     /* just in case there no content*/
     padding: 20px 25px 30px;
-    margin: 0 auto 25px;
+    max-width: 900px;
+    margin: 0 auto;
     margin-top: 50px;
     /* shadows and rounded borders */
     -moz-border-radius: 2px;
@@ -32,12 +30,6 @@
 }
  
 
-/* 全体の背景 */
-/* 外枠のスタイル */
-.button-wrapper {
-    background-color: #f8f9fa; /* 背景色は薄いグレー */
-}
-
 .button-container {
     background-color: white; /* 内側の背景を白色に */
     border: 1px solid #ddd; /* 明るいグレーの枠線 */
@@ -53,7 +45,7 @@
     font-size: 1.4rem; /* ボタン内の文字を少し大きく */
     font-weight: bold; /* 文字を太字に */
     padding: 15px 0; /* ボタンを縦に大きく */
-    background: linear-gradient(to right, #007bff, #0056b3); /* グラデーション */
+    background: linear-gradient(to right, #3399ff, #007bff); /* グラデーション */
     border-radius: 10px; /* ボタンの角を丸く */
     color: white;
     transition: transform 0.2s ease, box-shadow 0.2s ease; /* ホバー効果 */
@@ -66,7 +58,7 @@
 
 /* ボタンのホバー効果 */
 .btn-primary:hover {
-    background: #0056b3; /* ホバー時の背景色 */
+    background: #007bff; /* ホバー時の背景色 */
     transform: translateY(-2px); /* 少し浮き上がる */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* ホバー時の影を強調 */
 }
@@ -76,4 +68,20 @@
     font-weight: bold; /* 太字 */
     color: #333; /* 濃いグレー */
     margin-bottom: 1.5rem; /* ボタンとの間隔 */
+}
+body {
+    padding-top: 56px;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    background-image: url(../img/sae.jpg);
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+}
+.content-container {
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
 }

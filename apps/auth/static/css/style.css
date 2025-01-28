@@ -1,17 +1,18 @@
 .card-container.card {
-    max-width: 350px;
-    padding: 40px 40px;
+    max-width: 320px;
+    padding: 20px 40px;
 }
  
 /*
  * Card component
  */
- .card {
+.card {
     background-color: #F7F7F7;
     /* just in case there no content*/
     padding: 20px 25px 30px;
-    margin: 0 auto 25px;
-    margin-top: 50px;
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 10px;
     /* shadows and rounded borders */
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
@@ -19,6 +20,7 @@
     -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    
 }
  
 .profile-img-card {
@@ -63,7 +65,7 @@
  
 .btn.btn-signin,
 .btn.btn-login {
-    background-color: rgb(104, 145, 162);
+    background: #3399ff;
     padding: 0px;
     font-weight: 700;
     font-size: 14px;
@@ -81,13 +83,13 @@
 .btn.btn-signin:hover,
 .btn.btn-signin:active,
 .btn.btn-signin:focus {
-    background-color: #d63384;
+    background-color:  #1e80e0;
 }
  
 .btn.btn-login:hover,
 .btn.btn-login:active,
 .btn.btn-login:focus {
-    background-color: #0d6efd;
+    background-color: #3399ff;
 }
  
 .button-container {
@@ -106,4 +108,46 @@
 
 body {
     padding-top: 56px;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #F0F8FF;
+}
+.content-container {
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+}
+/* 通常のボタン色 */
+.btn-blue,
+.btn-blue.disabled, .btn-blue:disabled {
+  color: #fff;
+  background-color: #3399ff;
+  border-color: #3399ff;
+}
+
+/* focusされた時の枠線の色 */
+.btn-blue:focus, .btn-blue.focus,
+.btn-blue:not(:disabled):not(.disabled):active:focus, .btn-blue:not(:disabled):not(.disabled).active:focus,
+.show > .btn-blue.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(51, 153, 255, 0.5);
+}
+
+/* hover時（マウスカーソルを重ねた時）の色（通常より濃いor暗めの色を指定） */
+.btn-blue:hover {
+  color: #fff;
+  background-color: #1e80e0;
+  border-color: #1c75d0;
+}
+
+/* active時の色（hover時と同等かさらに濃いor暗めの色を指定） */
+.btn-blue:not(:disabled):not(.disabled):active, .btn-blue:not(:disabled):not(.disabled).active,
+.show > .btn-blue.dropdown-toggle {
+  color: #fff;
+  background-color: #1c6bb5;
+  border-color: #1a649e;
+}
+.text-secondary-dark{
+    color: #495057;
 }

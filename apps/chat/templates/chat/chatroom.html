@@ -1,5 +1,6 @@
 {% extends "chat/base.html" %}
 {% block content %}
+
     <div id="chat-container">
         <nav class="navbar navbar-light bg-light" style="border: solid;">
             <h4><div id="username"></div></h4>
@@ -8,70 +9,71 @@
     </div>
     <div id="chat-button">
         <input class="form-control" id="message-input" autocomplete="off" >
-        <button class="btn btn-primary" onclick="sendMessage()" style="width: 70px;height: 40px;">送信</button>
+        <button class="btn btn-blue" onclick="sendMessage()" style="width: 70px;height: 40px;">送信</button>
         <a href="{{ url_for('chat.userlist') }}" class="btn btn-lg btn-secondary" style="width: 70px;height: 40px;font-size: 14px;">戻る</a>
     </div>
-    <script>
-        var socket = io();
-        let isExecuted = false;
-        const join = (room) => {socket.emit("join" ,{room:room})}
-        var friend = {{friend|tojson}};
-        var user = {{user|tojson}};
-        var chat = {{chat|tojson}};
-        document.getElementById('username').textContent = friend[2];
-        function runOnce() {
-            if (!isExecuted) {
-                for (let i = 0; i < chat.length; i++) {
-                    if (chat[i][1] == user[0]){
-                        console.log(chat[i][3])
-                        var messages = document.getElementById('messages');
-                        var message = document.createElement('div');
-                        message.classList.add('message', 'self');
-                        message.textContent = chat[i][3];
-                        messages.appendChild(message);
-                        messages.scrollTop = messages.scrollHeight;
-                    } else {
-                        console.log(chat[i][3])
-                        var messages = document.getElementById('messages');
-                        var message = document.createElement('div');
-                        message.classList.add('message', 'other');
-                        message.textContent = chat[i][3];
-                        messages.appendChild(message);
-                        messages.scrollTop = messages.scrollHeight;
-                    }
 
+<script>
+    var socket = io();
+    let isExecuted = false;
+    const join = (room) => {socket.emit("join" ,{room:room})}
+    var friend = {{friend|tojson}};
+    var user = {{user|tojson}};
+    var chat = {{chat|tojson}};
+    document.getElementById('username').textContent = friend[2];
+    function runOnce() {
+        if (!isExecuted) {
+            for (let i = 0; i < chat.length; i++) {
+                if (chat[i][1] == user[0]){
+                    console.log(chat[i][3])
+                    var messages = document.getElementById('messages');
+                    var message = document.createElement('div');
+                    message.classList.add('message', 'self');
+                    message.textContent = chat[i][3];
+                    messages.appendChild(message);
+                    messages.scrollTop = messages.scrollHeight;
+                } else {
+                    console.log(chat[i][3])
+                    var messages = document.getElementById('messages');
+                    var message = document.createElement('div');
+                    message.classList.add('message', 'other');
+                    message.textContent = chat[i][3];
+                    messages.appendChild(message);
+                    messages.scrollTop = messages.scrollHeight;
                 }
-                isExecuted = true; // フラグを立てる
+
             }
+            isExecuted = true; // フラグを立てる
         }
+    }
 
-        join(friend[1])
-        runOnce()
-        socket.on('message', function(msg){
-            var messages = document.getElementById('messages');
-            var message = document.createElement('div');
-            message.classList.add('message', 'other');
-            message.textContent = msg;
-            messages.appendChild(message);
-            messages.scrollTop = messages.scrollHeight;
-        });
+    join(friend[1])
+    runOnce()
+    socket.on('message', function(msg){
+        var messages = document.getElementById('messages');
+        var message = document.createElement('div');
+        message.classList.add('message', 'other');
+        message.textContent = msg;
+        messages.appendChild(message);
+        messages.scrollTop = messages.scrollHeight;
+    });
 
-        function sendMessage() {
-            var input = document.getElementById('message-input');
-            var msg = input.value;
-            if (msg.trim() === '') return;
+    function sendMessage() {
+        var input = document.getElementById('message-input');
+        var msg = input.value;
+        if (msg.trim() === '') return;
 
-            // Add self message
-            var messages = document.getElementById('messages');
-            var message = document.createElement('div');
-            message.classList.add('message', 'self');
-            message.textContent = msg;
-            messages.appendChild(message);
-            messages.scrollTop = messages.scrollHeight;
-            var data = [msg,friend[1],friend[0],user[0]];
-            // Send message to server
-            socket.emit('message', data); // 修正: socket.sendからsocket.emitに変更
-            input.value = '';
-        }
-    </script>
+        // Add self message
+        var messages = document.getElementById('messages');
+        var message = document.createElement('div');
+        message.classList.add('message', 'self');
+        message.textContent = msg;
+        messages.appendChild(message);
+        messages.scrollTop = messages.scrollHeight;
+        var data = [msg,friend[1],friend[0],user[0]];
+        // Send message to server
+        socket.emit('message', data); // 修正: socket.sendからsocket.emitに変更
+        input.value = '';
+    }
+</script>
 {% endblock %}

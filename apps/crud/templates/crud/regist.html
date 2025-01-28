@@ -1,7 +1,7 @@
 {% extends "crud/base.html" %}
 {% block content %}
 <div class="container">
-  <div class="card card-container">
+  <div class="card card-container" style="margin-top: 30px;">
     <p id="profile-name" class="profile-name-card"></p>
     <h1 class="text-center mb-4">ごみの登録</h1>
     <form action="{{ url_for('crud.garbage_regist', next=request.args.get(next)) }}" class="form-regist" method="POST" novalidate="novalidate">
@@ -16,7 +16,7 @@
       {% for error in form.amount.errors %}
       <span style="color: red;">{{ error }}</span>
       {% endfor %}
-      {{ form.amount(class="form-control", placeholder="ごみの量") }}
+      {{ form.amount(class="form-control", placeholder="ごみの量（個）") }}
       {% for error in form.date.errors %}
       <span style="color: red;">{{ error }}</span>
       {% endfor %}

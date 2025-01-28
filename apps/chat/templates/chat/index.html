@@ -1,41 +1,43 @@
 {% extends "chat/base.html" %}
 {% block content %}
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">フレンドの一覧</h6>
-    </div>
-    {% if users | length == 0 %}
-    <h1>あなたのフレンドは0人です</h1>
-    {% else %}
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>ユーザー名</th>
-                        <th>メールアドレス</th>
-                        <th>都道府県</th>
-                        <th>市区町村</th>
-                        <th>チャット</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    {% for user in users %}
-                    <tr>
-                        <form action="../chat/chatroom" method="post">
-                            <th>{{ user.username }}</th>
-                            <th>{{ user.email }}</th>
-                            <th>{{ user.place1 }}</th>
-                            <th>{{ user.place2 }}</th>
-                            <input type="hidden" name="userid" value="{{user.id}}">
-                            <th><input class="btn btn-primary" type="submit" name="userid" id="userid" value="チャットする"></th>
-                        </form>
-                    </tr>
-                    {% endfor %}
-                </tfoot>
-            </table>
+<div class="content-container">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">フレンドの一覧</h6>
         </div>
+        {% if users | length == 0 %}
+        <h1>あなたのフレンドは0人です</h1>
+        {% else %}
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ユーザー名</th>
+                            <th>メールアドレス</th>
+                            <th>都道府県</th>
+                            <th>市区町村</th>
+                            <th>チャット</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        {% for user in users %}
+                        <tr>
+                            <form action="../chat/chatroom" method="post">
+                                <th>{{ user.username }}</th>
+                                <th>{{ user.email }}</th>
+                                <th>{{ user.place1 }}</th>
+                                <th>{{ user.place2 }}</th>
+                                <input type="hidden" name="userid" value="{{user.id}}">
+                                <th><input class="btn btn-blue" type="submit" name="userid" id="userid" value="チャットする"></th>
+                            </form>
+                        </tr>
+                        {% endfor %}
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
 </div>
 {% endblock %}

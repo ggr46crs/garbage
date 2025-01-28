@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import SubmitField,SelectField,IntegerField,DateField
-from wtforms.validators import length,DataRequired,NumberRange
- 
+from wtforms.validators import length,DataRequired,NumberRange,ValidationError
+from datetime import date
+
+
 class GarbageForm(FlaskForm):
     garbagecode = SelectField(
         "ごみの種類",
@@ -24,4 +26,7 @@ class GarbageForm(FlaskForm):
         ]
     )
     submit = SubmitField("登録")
- 
+
+    def validate_date(self, field):
+        if field.data > date.today():
+            raise ValidationError("明日以降の日付は入力できません。")

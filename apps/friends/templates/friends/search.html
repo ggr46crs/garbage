@@ -1,79 +1,80 @@
 {% extends "friends/base.html" %}
-
 {% block content %}
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">ユーザーの一覧</h6>
-        <div class="search">
-            <!-- 検索フォーム -->
-            <form method="get" action="">
-                <input type="text" name="search" placeholder="ユーザー名かメールアドレスを入力してください" 
-                    value="{{ request.args.get('search', '') }}" style="width: 60%; height: 50px;">
-                <input type="submit" value="検索🔎" style="height: 50px;">
-            </form>
+<div class="content-container">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">ユーザーの一覧</h6>
+            <div class="search">
+                <!-- 検索フォーム -->
+                <form method="get" action="">
+                    <input type="text" name="search" placeholder="ユーザー名かメールアドレスを入力してください" 
+                        value="{{ request.args.get('search', '') }}" style="width: 60%; height: 50px;">
+                    <input type="submit" value="検索🔎" style="height: 50px;">
+                </form>
+            </div>
         </div>
-    </div>
 
-    {% if users | length == 0 %}
-    <h1>検索したユーザーは0件です</h1>
-    {% else %}
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <!-- 並べ替え可能なカラム -->
-                        <th>
-                            <a href="?search={{ request.args.get('search', '') }}&sort_by=username&order={{ 'asc' if current_order == 'desc' and current_sort == 'username' else 'desc' }}">
-                                ユーザー名
-                                {% if current_sort == "username" %}
-                                {{ "⬆" if current_order == "asc" else "⬇" }}
-                                {% endif %}
-                            </a>
-                        </th>
-                        <th>
-                            <a href="?search={{ request.args.get('search', '') }}&sort_by=email&order={{ 'asc' if current_order == 'desc' and current_sort == 'email' else 'desc' }}">
-                                メールアドレス
-                                {% if current_sort == "email" %}
-                                {{ "⬆" if current_order == "asc" else "⬇" }}
-                                {% endif %}
-                            </a>
-                        </th>
-                        <th>都道府県</th>
-                        <th>
-                            <a href="?search={{ request.args.get('search', '') }}&sort_by=place2&order={{ 'asc' if current_order == 'desc' and current_sort == 'place2' else 'desc' }}">
-                                市区町村
-                                {% if current_sort == "place2" %}
-                                {{ "⬆" if current_order == "asc" else "⬇" }}
-                                {% endif %}
-                            </a>
-                        </th>
-                        <th>フレンド申請</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    {% for user in users %}
-                    <tr>
-                        <form action="../friends/request" method="post">
-                            <th>{{ user.username }}</th>
-                            <th>{{ user.email }}</th>
-                            <th>{{ user.place1 }}</th>
-                            <th>{{ user.place2 }}</th>
-                            <input type="hidden" name="userid" value="{{ user.id }}">
+        {% if users | length == 0 %}
+        <h1>検索したユーザーは0件です</h1>
+        {% else %}
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <!-- 並べ替え可能なカラム -->
                             <th>
-                                {% if user.id in friends_id %}
-                                <button class="btn btn-secondary" type="button" disabled>申請済</button>
-                                {% else %}
-                                <input class="btn btn-primary" type="submit" name="userid" id="userid" value="申請">
-                                {% endif %}
+                                <a href="?search={{ request.args.get('search', '') }}&sort_by=username&order={{ 'asc' if current_order == 'desc' and current_sort == 'username' else 'desc' }}">
+                                    ユーザー名
+                                    {% if current_sort == "username" %}
+                                    {{ "⬆" if current_order == "asc" else "⬇" }}
+                                    {% endif %}
+                                </a>
                             </th>
-                        </form>
-                    </tr>
-                    {% endfor %}
-                </tfoot>
-            </table>
+                            <th>
+                                <a href="?search={{ request.args.get('search', '') }}&sort_by=email&order={{ 'asc' if current_order == 'desc' and current_sort == 'email' else 'desc' }}">
+                                    メールアドレス
+                                    {% if current_sort == "email" %}
+                                    {{ "⬆" if current_order == "asc" else "⬇" }}
+                                    {% endif %}
+                                </a>
+                            </th>
+                            <th>都道府県</th>
+                            <th>
+                                <a href="?search={{ request.args.get('search', '') }}&sort_by=place2&order={{ 'asc' if current_order == 'desc' and current_sort == 'place2' else 'desc' }}">
+                                    市区町村
+                                    {% if current_sort == "place2" %}
+                                    {{ "⬆" if current_order == "asc" else "⬇" }}
+                                    {% endif %}
+                                </a>
+                            </th>
+                            <th>フレンド申請</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        {% for user in users %}
+                        <tr>
+                            <form action="../friends/request" method="post">
+                                <th>{{ user.username }}</th>
+                                <th>{{ user.email }}</th>
+                                <th>{{ user.place1 }}</th>
+                                <th>{{ user.place2 }}</th>
+                                <input type="hidden" name="userid" value="{{ user.id }}">
+                                <th>
+                                    {% if user.id in friends_id %}
+                                    <button class="btn btn-secondary" type="button" disabled>申請済</button>
+                                    {% else %}
+                                    <input class="btn btn-blue" type="submit" name="userid" id="userid" value="申請">
+                                    {% endif %}
+                                </th>
+                            </form>
+                        </tr>
+                        {% endfor %}
+                    </tfoot>
+                </table>
+            </div>
         </div>
+        {% endif %}
     </div>
-    {% endif %}
 </div>
 {% endblock %}
